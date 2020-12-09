@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.model.Estado;
-import com.example.model.Pais;
+import com.example.entity.Estado;
+import com.example.entity.Pais;
 import com.example.service.EstadoService;
 import com.example.service.PaisService;
 

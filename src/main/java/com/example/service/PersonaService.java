@@ -2,7 +2,7 @@ package com.example.service;
 
 import java.util.List;
 
-import com.example.model.Persona;
+import com.example.entity.Persona;
 
 public interface PersonaService {
 	
