@@ -27,6 +27,6 @@ public class PersonaDto {
     @NotNull
     private Pais pais;
 
-    @NotBlank
+    @NotNull
     private Estado estado;
 }

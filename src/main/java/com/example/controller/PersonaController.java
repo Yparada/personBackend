@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,12 +29,12 @@ public class PersonaController {
 	private PersonaService personaServicee;
 
 	@GetMapping
-	private ResponseEntity<List<Persona>> getAllPersona(){
+	public ResponseEntity<List<Persona>> getAllPersona(){
 		return ResponseEntity.ok(personaServicee.listAllPersona());
 	}
 	
 	@GetMapping("{id}")
-	private ResponseEntity<Persona> getPersona(@PathVariable("id") Long id){
+	public ResponseEntity<Persona> getPersona(@PathVariable("id") Long id){
 		Persona persona = personaServicee.getProduct(id);
 		if(null==persona) {
 			return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
@@ -41,8 +42,9 @@ public class PersonaController {
 		return ResponseEntity.ok(persona);
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
-	private ResponseEntity<Persona> savePersona(@RequestBody PersonaDto personaDto){
+	public ResponseEntity<Persona> savePersona(@RequestBody PersonaDto personaDto){
 		if (StringUtils.isAllBlank(personaDto.getNombre())){
 			return new ResponseEntity(new Mensaje("El campo nombre es obligatorio"), HttpStatus.BAD_REQUEST);
 		}
@@ -68,9 +70,10 @@ public class PersonaController {
 		personaServicee.createProduct(personaNueva);
 		return new ResponseEntity(new Mensaje("Persona agregada"), HttpStatus.OK);
 	}
-	
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(value = "{id}")
-	private ResponseEntity<Persona> deletePersona(@PathVariable("id") Long id){
+	public ResponseEntity<Persona> deletePersona(@PathVariable("id") Long id){
 		Persona personaDel = personaServicee.getProduct(id);
 		if(null==personaDel) {
 			return new ResponseEntity(new Mensaje("No existe"), HttpStatus.BAD_REQUEST);
@@ -89,8 +92,9 @@ public class PersonaController {
 		return ResponseEntity.ok(personadb);
 		
 	}*/
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping("{id}")
-	private ResponseEntity<Persona> updatePersona(@PathVariable("id") Long id,@RequestBody PersonaDto personaDto){
+	public ResponseEntity<Persona> updatePersona(@PathVariable("id") Long id,@RequestBody PersonaDto personaDto){
 		Persona persona = personaServicee.getProduct(id);
 		if(null==persona) {
 			return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
@@ -119,5 +123,4 @@ public class PersonaController {
 		personaServicee.createProduct(persona);
 		return new ResponseEntity(new Mensaje("Persona actualizado"), HttpStatus.OK);
 	}
-
 }
