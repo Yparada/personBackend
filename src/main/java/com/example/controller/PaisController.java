@@ -21,7 +21,5 @@ public class PaisController {
 	@GetMapping
 	private ResponseEntity<List<Pais>> getAllPais(){
 		return ResponseEntity.ok(paisService.listAllPais());
-		
 	}
-
 }

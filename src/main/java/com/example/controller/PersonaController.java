@@ -78,17 +78,7 @@ public class PersonaController {
 		personaServicee.deleteProduct(id);
 		return new ResponseEntity(new Mensaje("Persona eliminada"), HttpStatus.OK);
 	}
-	/*
-	@PutMapping("{id}")
-	private ResponseEntity<Persona> updatePersona(@PathVariable("id") Long id,@RequestBody Persona persona){
-		persona.setId(id);
-		Persona personadb = personaServicee.updateProduct(persona);
-		if(null==persona) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(personadb);
-		
-	}*/
+
 	@PutMapping("{id}")
 	private ResponseEntity<Persona> updatePersona(@PathVariable("id") Long id,@RequestBody PersonaDto personaDto){
 		Persona persona = personaServicee.getProduct(id);
