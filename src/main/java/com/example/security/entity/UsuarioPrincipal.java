@@ -1,7 +1,5 @@
 package com.example.security.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,21 +8,27 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-public class MainUser implements UserDetails {
-    private String name;
-    private String userName;
+public class UsuarioPrincipal implements UserDetails {
+    private String nombre;
+    private String nombreUsuario;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static MainUser build(User user){
-        List<GrantedAuthority> authorities =
-                user.getRols().stream().map(rol ->
-                        new SimpleGrantedAuthority(rol.getRolName().name())).collect(Collectors.toList());
-        return new MainUser(user.getName(), user.getUserName(), user.getEmail(), user.getPassword(), authorities);
+    public UsuarioPrincipal(String nombre, String nombreUsuario, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.nombre = nombre;
+        this.nombreUsuario = nombreUsuario;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
     }
 
+    public static UsuarioPrincipal build(Usuario usuario){
+        List<GrantedAuthority> authorities =
+                usuario.getRoles().stream().map(rol -> new SimpleGrantedAuthority(rol
+                        .getRolNombre().name())).collect(Collectors.toList());
+        return new UsuarioPrincipal(usuario.getNombre(), usuario.getNombreUsuario(), usuario.getEmail(), usuario.getPassword(), authorities);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -38,7 +42,7 @@ public class MainUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return nombreUsuario;
     }
 
     @Override
@@ -61,8 +65,8 @@ public class MainUser implements UserDetails {
         return true;
     }
 
-    public String getName() {
-        return name;
+    public String getNombre() {
+        return nombre;
     }
 
     public String getEmail() {

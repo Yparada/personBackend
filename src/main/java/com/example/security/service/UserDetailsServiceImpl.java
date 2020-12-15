@@ -1,7 +1,7 @@
 package com.example.security.service;
 
-import com.example.security.entity.MainUser;
-import com.example.security.entity.User;
+import com.example.security.entity.Usuario;
+import com.example.security.entity.UsuarioPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,12 +12,11 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    UsuarioService usuarioService;
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-
-        User user = userService.getByUserName(userName);
-        return MainUser.build(user);
+    public UserDetails loadUserByUsername(String nombreUsuario) throws UsernameNotFoundException {
+        Usuario usuario = usuarioService.getByNombreUsuario(nombreUsuario).get();
+        return UsuarioPrincipal.build(usuario);
     }
 }
